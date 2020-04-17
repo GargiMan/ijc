@@ -1,2 +1,2 @@
-# ijc
+# IJC Projects
 Projects made for IJC
