@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     //variable set
     bool fread = 0;                     //dont ignore stdin until checked for files in arguments
 
-    //search for all filenames
+    //search for files in arguments
     for (int i = 1;i < argc;i++) {
 
         //skip -n argument and value
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
         //ignore stdin
         fread = 1;
 
-        //
+        //read file and print 
         readnprint(file,nlines,invert);
 
         //close file
@@ -93,7 +93,7 @@ void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
 
         //alloc array for lines
         for (unsigned long i = 0; i < numoflines; i++) {
-            line[i] = malloc(LINELIMIT*sizeof(char));
+            line[i] = calloc(LINELIMIT,sizeof(char));
             if (line[i] == NULL) error_exit("allocation for %lu lines failed\n",numoflines); 
         }
 
@@ -120,6 +120,7 @@ void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
 
         //print and free array
         for (unsigned long i = 0; i < numoflines; i++) {
+            if (strlen(line[i]) == 0) continue;
             fprintf(stdout,"%s",line[i]);
             if (strchr(line[i],'\n') == NULL) fprintf(stdout,"\n");
             free(line[i]);
@@ -127,7 +128,7 @@ void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
 
     //inverted print
     } else {
-        for (rlines = 0;fgets(readline,LINELIMIT,stream) != NULL;rlines++) {
+        for (rlines = 1;fgets(readline,LINELIMIT,stream) != NULL;rlines++) {
             
             //warning once line exceeded limit
             if (strchr(readline,'\n') == NULL && strlen(readline) == LINELIMIT-1) {
@@ -169,3 +170,5 @@ void warning_msg(const char *fmt, ...) {
     vfprintf(stderr, fmt, args);
     va_end (args);
 }
+
+//vytvorit chybove hlasenia ?

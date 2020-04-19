@@ -13,11 +13,13 @@ run: all
 	./tail file
 	./tail file -n 3
 	./tail file -n +15
+	./tail -n +1 <file
 
 ref:
 	tail file
 	tail file -n 3
 	tail file -n +15
+	tail -n +1 <file
 
 clean:
 	$(RM) tail xgerge01.zip
