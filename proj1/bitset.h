@@ -25,7 +25,7 @@ jmeno_pole[0] = velikost;\
 for (bitset_index_t i = 1;i < ARRAY_SIZE(velikost);i++) jmeno_pole[i] = 0;
 
 #define bitset_alloc(jmeno_pole,velikost)\
-bitset_t jmeno_pole = malloc(ARRAY_SIZE(velikost));\
+bitset_t jmeno_pole = calloc(ARRAY_SIZE(velikost));\
 if (jmeno_pole == NULL) error_exit("bitset_alloc: Chyba alokace pameti\n");\
 assert(velikost <= 500000000 && velikost > 0);\
 jmeno_pole[0] = velikost;

@@ -5,20 +5,18 @@
 #include <stdbool.h>
 #include <limits.h>
 
-#define LINELIMIT 1025 //1023+2 (\0 and \n)
+#define LINELIMIT 1024                  //1023+1 , limit for number of char in single line
 
-// error exit function
+void readnprint(FILE* stream, unsigned long numoflines, bool invertprint);
 void error_exit(const char *fmt, ...);
-
-// warning msg function
 void warning_msg(const char *fmt, ...);
 
 // tail function
 int main(int argc, char* argv[]) {
 
     //variables for -n argument
-    unsigned long nlines = 10;      //number of lines to print, default - 10
-    bool invert = 0;                //invert to print from bottom or top
+    bool invert = 0;                    //invert to print from bottom or top
+    unsigned long nlines = 10;          //number of lines to print, default - 10
 
     //search for last -n argument
     for (int i = 1;i < argc;i++) {
@@ -43,16 +41,16 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    //0 lines to print from back , return 0
+    if (nlines == 0 && invert == 0) return 0;
+
     //variable set
-    bool fread = 0;                 //dont ignore stdin until checked for files in arguments
-    char readline[LINELIMIT] = "";       //last read line
-    unsigned long rlines = 0;       //number of lines read
-    bool errorprinted = 0;          //prints only once error for too long lines
-    
+    bool fread = 0;                     //dont ignore stdin until checked for files in arguments
+
     //search for all filenames
     for (int i = 1;i < argc;i++) {
 
-        //skip -n argument
+        //skip -n argument and value
         if (strcmp(argv[i],"-n") == 0 ) {
             i++;
             continue;
@@ -64,53 +62,93 @@ int main(int argc, char* argv[]) {
         
         //ignore stdin
         fread = 1;
-        
-        //read and count lines
-        while(fgets(readline,LINELIMIT,file) != NULL) rlines++;
-        fclose(file);
 
-        //reopen file and print lines
-        fopen(argv[i], "r");
-        for (unsigned long i = 0; i < rlines; i++) {
-            fgets(readline,LINELIMIT,file);
-            if (i >= (invert ? nlines-1 : rlines-nlines)) fprintf(stdout,"%s",readline);
-            if (readline[strlen(readline)-1] != '\n' && strlen(readline) == 1025 && errorprinted == 0) {
-                errorprinted = 1;
-                warning_msg("numbers of chars on single line exceeded limit %lu chars (including \\0 and \\n)\n",LINELIMIT);
-            }
-            if (readline[strlen(readline)-1] != '\n') fprintf(stdout,"\n"); 
-        }
+        //
+        readnprint(file,nlines,invert);
+
+        //close file
         fclose(file);
     }
 
     //read stdin only if file was not passed in arguments
-    if (fread == 0) {
-        
-        char* line[nlines];
-
-        for (unsigned long i = 0; i < nlines; i++) {
-            line[i] = malloc(LINELIMIT*sizeof(char));
-            if (line[i] == NULL) error_exit("allocation for \'%lu\' lines failed\n",nlines); 
-        }
-
-        for (rlines = 0;*(fgets(readline,LINELIMIT,stdin)) != EOF;rlines++) {
-            for (unsigned long j = 0; j < nlines-1; j++) line[j] = line[j+1];
-            line[nlines-1]=readline;
-            if (readline[strlen(readline)-1] != '\n' && strlen(readline) == 1025 && errorprinted == 0) {
-                errorprinted = 1;
-                warning_msg("numbers of chars on single line exceeded limit %lu chars (including \\0 and \\n)\n",LINELIMIT);
-            }
-        }
-
-        for (unsigned long i = 0; i < nlines; i++) {
-            fprintf(stdout,"%s",line[i]);
-            if (line[i][strlen(readline)-1] != '\n') fprintf(stdout,"\n");  
-            free(line[i]);
-        }
-    }
+    if (fread == 0) readnprint(stdin,nlines,invert);
 
     return 0;
 }
+
+
+// read and print algorythm function
+void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
+
+    //variable set
+    bool warningprinted = 0;            //prints only once error for too long lines
+    char readline[LINELIMIT];           //last read line
+    unsigned long rlines = 0;           //number of lines read 
+
+    //non inverted print
+    if (invertprint == 0) {
+
+        //line array variable
+        char* line[numoflines];
+
+        //alloc array for lines
+        for (unsigned long i = 0; i < numoflines; i++) {
+            line[i] = malloc(LINELIMIT*sizeof(char));
+            if (line[i] == NULL) error_exit("allocation for %lu lines failed\n",numoflines); 
+        }
+
+        //read and save
+        while(fgets(readline,LINELIMIT,stream) != NULL) {
+
+            //move lines in array and save new
+            for (unsigned long j = 0; j < numoflines-1; j++) sprintf(line[j],"%s",line[j+1]);
+            sprintf(line[numoflines-1],"%s",readline);
+            
+            //if line is not ended with \n and is full of chars
+            if (strchr(readline,'\n') == NULL && strlen(readline) == LINELIMIT-1) {
+
+                //warning once line exceeded limit
+                if (warningprinted == 0) {
+                    warningprinted = 1;
+                    warning_msg("numbers of chars on single line exceeded limit %lu chars\n",LINELIMIT);
+                }
+
+                //skip the rest of line
+                while (fgets(readline,LINELIMIT,stream) != NULL) if (strchr(readline,'\n') != NULL) break; 
+            }
+        }
+
+        //print and free array
+        for (unsigned long i = 0; i < numoflines; i++) {
+            fprintf(stdout,"%s",line[i]);
+            if (strchr(line[i],'\n') == NULL) fprintf(stdout,"\n");
+            free(line[i]);
+        }
+
+    //inverted print
+    } else {
+        for (rlines = 0;fgets(readline,LINELIMIT,stream) != NULL;rlines++) {
+            
+            //warning once line exceeded limit
+            if (strchr(readline,'\n') == NULL && strlen(readline) == LINELIMIT-1) {
+                if (warningprinted == 0) {
+                    warningprinted = 1;
+                    warning_msg("numbers of chars on single line exceeded limit %lu chars\n",LINELIMIT);
+                }
+
+                //read until EOF or \n
+                char tmp[LINELIMIT];
+                while (fgets(tmp,LINELIMIT,stream) != NULL) if (strchr(tmp,'\n') != NULL) break;
+            }
+
+            if (rlines >= numoflines) {
+                fprintf(stdout,"%s",readline);
+                if (strchr(readline,'\n') == NULL) fprintf(stdout,"\n");
+            }
+        }
+    }
+}
+
 
 //error exit function created in DU1
 void error_exit(const char *fmt, ...) {
@@ -122,6 +160,7 @@ void error_exit(const char *fmt, ...) {
     exit(1);
 }
 
+
 //warning msg function created in DU1
 void warning_msg(const char *fmt, ...) {
     va_list args;
@@ -130,8 +169,3 @@ void warning_msg(const char *fmt, ...) {
     vfprintf(stderr, fmt, args);
     va_end (args);
 }
-
-
-// výpis 1x na stderr o prekročení limitu riadku 
-
-// malloc in stdin
