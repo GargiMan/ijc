@@ -1,3 +1,9 @@
+// tail.c
+// Řešení IJC-DU2, příklad A), 19.4.2020
+// Autor: Marek Gergel, FIT
+// Přeloženo: gcc 7.5.0
+// program vypíše posledných n(10) riadkov zo suboru alebo stdin
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -7,7 +13,7 @@
 
 #define LINELIMIT 1024                  //1023+1 , limit for number of char in single line
 
-void readnprint(FILE* stream, unsigned long numoflines, bool invertprint);
+void readnprint(FILE* stream, unsigned long nlines, bool invert);
 void error_exit(const char *fmt, ...);
 void warning_msg(const char *fmt, ...);
 
@@ -15,7 +21,7 @@ void warning_msg(const char *fmt, ...);
 int main(int argc, char* argv[]) {
 
     //variables for -n argument
-    bool invert = 0;                    //invert to print from bottom or top
+    bool invert = 1;                    //invert to print from bottom or top
     unsigned long nlines = 10;          //number of lines to print, default - 10
 
     //search for last -n argument
@@ -24,10 +30,12 @@ int main(int argc, char* argv[]) {
         //check if argument is -n and if its followed by value
         if (strcmp(argv[i],"-n") == 0 ) {
             if (argc > ++i) {
-                
+
                 //convert argument into ulong value
                 char* ptr;
                 nlines = strtoul(argv[i], &ptr ,0);
+
+                //invert line read
                 if (argv[i][0] == 43) invert = !invert;
 
                 //check -n argument value
@@ -42,7 +50,7 @@ int main(int argc, char* argv[]) {
     }
 
     //0 lines to print from back , return 0
-    if (nlines == 0 && invert == 0) return 0;
+    if (nlines == 0 && invert) return 0;
 
     //variable set
     bool fread = 0;                     //dont ignore stdin until checked for files in arguments
@@ -63,14 +71,12 @@ int main(int argc, char* argv[]) {
         //ignore stdin
         fread = 1;
 
-        //read file and print 
+        //read file, print and close
         readnprint(file,nlines,invert);
-
-        //close file
         fclose(file);
     }
 
-    //read stdin only if file was not passed in arguments
+    //read stdin
     if (fread == 0) readnprint(stdin,nlines,invert);
 
     return 0;
@@ -78,48 +84,48 @@ int main(int argc, char* argv[]) {
 
 
 // read and print algorythm function
-void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
+void readnprint(FILE* stream, unsigned long nlines, bool invert) {
 
     //variable set
-    bool warningprinted = 0;            //prints only once error for too long lines
-    char readline[LINELIMIT];           //last read line
+    bool warningprinted = 1;            //prints only once error for too long lines
+    char rline[LINELIMIT];              //last read line
     unsigned long rlines = 0;           //number of lines read 
 
     //non inverted print
-    if (invertprint == 0) {
+    if (invert) {
 
         //line array variable
-        char* line[numoflines];
+        char* line[nlines];
 
         //alloc array for lines
-        for (unsigned long i = 0; i < numoflines; i++) {
+        for (unsigned long i = 0; i < nlines; i++) {
             line[i] = calloc(LINELIMIT,sizeof(char));
-            if (line[i] == NULL) error_exit("allocation for %lu lines failed\n",numoflines); 
+            if (line[i] == NULL) error_exit("allocation for %lu lines failed\n",nlines); 
         }
 
         //read and save
-        while(fgets(readline,LINELIMIT,stream) != NULL) {
+        while(fgets(rline,LINELIMIT,stream) != NULL) {
 
             //move lines in array and save new
-            for (unsigned long j = 0; j < numoflines-1; j++) sprintf(line[j],"%s",line[j+1]);
-            sprintf(line[numoflines-1],"%s",readline);
+            for (unsigned long j = 0; j < nlines-1; j++) sprintf(line[j],"%s",line[j+1]);
+            sprintf(line[nlines-1],"%s",rline);
             
             //if line is not ended with \n and is full of chars
-            if (strchr(readline,'\n') == NULL && strlen(readline) == LINELIMIT-1) {
+            if (strchr(rline,'\n') == NULL && strlen(rline) == LINELIMIT-1) {
 
                 //warning once line exceeded limit
-                if (warningprinted == 0) {
-                    warningprinted = 1;
+                if (warningprinted) {
+                    warningprinted = 0;
                     warning_msg("numbers of chars on single line exceeded limit %lu chars\n",LINELIMIT);
                 }
 
                 //skip the rest of line
-                while (fgets(readline,LINELIMIT,stream) != NULL) if (strchr(readline,'\n') != NULL) break; 
+                while (fgets(rline,LINELIMIT,stream) != NULL) if (strchr(rline,'\n') != NULL) break; 
             }
         }
 
         //print and free array
-        for (unsigned long i = 0; i < numoflines; i++) {
+        for (unsigned long i = 0; i < nlines; i++) {
             if (strlen(line[i]) == 0) continue;
             fprintf(stdout,"%s",line[i]);
             if (strchr(line[i],'\n') == NULL) fprintf(stdout,"\n");
@@ -128,12 +134,12 @@ void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
 
     //inverted print
     } else {
-        for (rlines = 1;fgets(readline,LINELIMIT,stream) != NULL;rlines++) {
+        for (rlines = 1;fgets(rline,LINELIMIT,stream) != NULL;rlines++) {
             
             //warning once line exceeded limit
-            if (strchr(readline,'\n') == NULL && strlen(readline) == LINELIMIT-1) {
-                if (warningprinted == 0) {
-                    warningprinted = 1;
+            if (strchr(rline,'\n') == NULL && strlen(rline) == LINELIMIT-1) {
+                if (warningprinted) {
+                    warningprinted = 0;
                     warning_msg("numbers of chars on single line exceeded limit %lu chars\n",LINELIMIT);
                 }
 
@@ -142,9 +148,10 @@ void readnprint(FILE* stream, unsigned long numoflines, bool invertprint) {
                 while (fgets(tmp,LINELIMIT,stream) != NULL) if (strchr(tmp,'\n') != NULL) break;
             }
 
-            if (rlines >= numoflines) {
-                fprintf(stdout,"%s",readline);
-                if (strchr(readline,'\n') == NULL) fprintf(stdout,"\n");
+            //print
+            if (rlines >= nlines) {
+                fprintf(stdout,"%s",rline);
+                if (strchr(rline,'\n') == NULL) fprintf(stdout,"\n");
             }
         }
     }

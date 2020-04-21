@@ -22,7 +22,7 @@ ref:
 	tail -n +1 <file
 
 clean:
-	$(RM) tail xgerge01.zip
+	$(RM) tail
 
 zip: *.c Makefile # *.h - doplnit ak bude treba 
 	zip xgerge01.zip *.c *.c Makefile
