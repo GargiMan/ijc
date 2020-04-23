@@ -2,27 +2,17 @@
 # Autor: Marek Gergel, FIT
 
 CC = gcc
-CFLAGS = -g -std=c99 -pedantic -Wall -Wextra
+CFLAGS = -std=c99 -pedantic -Wall -Wextra
 
 all: tail
 
-tail: tail.c
-	$(CC) $(CFLAGS) tail.c -o $@
+tail.o: tail.c
 
-run: all
-	./tail file
-	./tail file -n 3
-	./tail file -n +15
-	./tail -n +1 <file
-
-ref:
-	tail file
-	tail file -n 3
-	tail file -n +15
-	tail -n +1 <file
+tail: tail.o
+	$(CC) $(CFLAGS) tail.o -o $@
 
 clean:
-	$(RM) tail
+	rm -f *.o tail
 
-zip: *.c Makefile # *.h - doplnit ak bude treba 
-	zip xgerge01.zip *.c *.c Makefile
+zip: *.c *.h Makefile
+	zip xgerge01.zip *.c Makefile

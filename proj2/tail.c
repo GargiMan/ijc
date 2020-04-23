@@ -36,11 +36,14 @@ int main(int argc, char* argv[]) {
                 nlines = strtoul(argv[i], &ptr ,0);
 
                 //invert line read
-                if (argv[i][0] == 43) invert = !invert;
+                if (argv[i][0] == 43) 
+                    invert = !invert;
 
                 //check -n argument value
-                if (strcmp(ptr,"") != 0) error_exit("argument \'%s\' is not correct decimal value \n", argv[i]);
-                if (argv[i][0] == 45 || nlines == ULONG_MAX) error_exit("argument \'%s\' must be more than 0 and less than %lu (unsgined long) \n", argv[i], ULONG_MAX);
+                if (strcmp(ptr,"") != 0) 
+                    error_exit("argument \'%s\' is not correct decimal value \n", argv[i]);
+                if (argv[i][0] == 45 || nlines == ULONG_MAX) 
+                    error_exit("argument \'%s\' must be more than 0 and less than %lu (unsgined long) \n", argv[i], ULONG_MAX);
 
             //argument -n without value
             } else {
@@ -50,7 +53,8 @@ int main(int argc, char* argv[]) {
     }
 
     //0 lines to print from back , return 0
-    if (nlines == 0 && invert) return 0;
+    if (nlines == 0 && invert) 
+        return 0;
 
     //variable set
     bool fread = 0;                     //dont ignore stdin until checked for files in arguments
@@ -66,7 +70,8 @@ int main(int argc, char* argv[]) {
 
         //open and check file
         FILE* file = fopen(argv[i], "r"); 
-        if (file == NULL) error_exit("cannot open \'%s\' for reading: No such file or directory\n", argv[i]);
+        if (file == NULL) 
+            error_exit("cannot open \'%s\' for reading: No such file or directory\n", argv[i]);
         
         //ignore stdin
         fread = 1;
@@ -77,11 +82,11 @@ int main(int argc, char* argv[]) {
     }
 
     //read stdin
-    if (fread == 0) readnprint(stdin,nlines,invert);
+    if (fread == 0) 
+        readnprint(stdin,nlines,invert);
 
     return 0;
 }
-
 
 // read and print algorythm function
 void readnprint(FILE* stream, unsigned long nlines, bool invert) {
@@ -100,14 +105,17 @@ void readnprint(FILE* stream, unsigned long nlines, bool invert) {
         //alloc array for lines
         for (unsigned long i = 0; i < nlines; i++) {
             line[i] = calloc(LINELIMIT,sizeof(char));
-            if (line[i] == NULL) error_exit("allocation for %lu lines failed\n",nlines); 
+            if (line[i] == NULL) 
+                error_exit("allocation for %lu lines failed\n",nlines); 
         }
 
         //read and save
         while(fgets(rline,LINELIMIT,stream) != NULL) {
 
             //move lines in array and save new
-            for (unsigned long j = 0; j < nlines-1; j++) sprintf(line[j],"%s",line[j+1]);
+            for (unsigned long j = 0; j < nlines-1; j++) 
+                sprintf(line[j],"%s",line[j+1]);
+
             sprintf(line[nlines-1],"%s",rline);
             
             //if line is not ended with \n and is full of chars
@@ -120,15 +128,22 @@ void readnprint(FILE* stream, unsigned long nlines, bool invert) {
                 }
 
                 //skip the rest of line
-                while (fgets(rline,LINELIMIT,stream) != NULL) if (strchr(rline,'\n') != NULL) break; 
+                while (fgets(rline,LINELIMIT,stream) != NULL) 
+                    if (strchr(rline,'\n') != NULL) 
+                        break; 
             }
         }
 
         //print and free array
         for (unsigned long i = 0; i < nlines; i++) {
-            if (strlen(line[i]) == 0) continue;
+
+            if (strlen(line[i]) == 0) 
+                continue;
+
             fprintf(stdout,"%s",line[i]);
-            if (strchr(line[i],'\n') == NULL) fprintf(stdout,"\n");
+            if (strchr(line[i],'\n') == NULL) 
+                fprintf(stdout,"\n");
+
             free(line[i]);
         }
 
@@ -145,37 +160,36 @@ void readnprint(FILE* stream, unsigned long nlines, bool invert) {
 
                 //read until EOF or \n
                 char tmp[LINELIMIT];
-                while (fgets(tmp,LINELIMIT,stream) != NULL) if (strchr(tmp,'\n') != NULL) break;
+                while (fgets(tmp,LINELIMIT,stream) != NULL) 
+                    if (strchr(tmp,'\n') != NULL) 
+                        break;
             }
 
             //print
             if (rlines >= nlines) {
                 fprintf(stdout,"%s",rline);
-                if (strchr(rline,'\n') == NULL) fprintf(stdout,"\n");
+                if (strchr(rline,'\n') == NULL) 
+                    fprintf(stdout,"\n");
             }
         }
     }
 }
 
-
 //error exit function created in DU1
 void error_exit(const char *fmt, ...) {
     va_list args;
     va_start (args, fmt);
-    fprintf(stderr, "Error (tail) : ");
+    fprintf(stderr, "Error : ");
     vfprintf(stderr, fmt, args);
     va_end (args);
     exit(1);
 }
 
-
 //warning msg function created in DU1
 void warning_msg(const char *fmt, ...) {
     va_list args;
     va_start (args, fmt);
-    fprintf(stderr, "Warning (tail) : ");
+    fprintf(stderr, "Warning : ");
     vfprintf(stderr, fmt, args);
     va_end (args);
 }
-
-//vytvorit chybove hlasenia ?
