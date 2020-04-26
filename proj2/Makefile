@@ -15,4 +15,4 @@ clean:
 	rm -f *.o tail
 
 zip: *.c *.h Makefile
-	zip xgerge01.zip *.c Makefile
+	zip xgerge01.zip *.c *.h Makefile
