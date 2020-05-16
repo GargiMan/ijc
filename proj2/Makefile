@@ -4,6 +4,8 @@
 CC = gcc
 CFLAGS = -std=c99 -pedantic -Wall -Wextra
 
+.PHONY: clean zip
+
 all: tail
 
 tail.o: tail.c

@@ -4,6 +4,8 @@
 CC = gcc
 CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
 
+.PHONY: run clean zip
+
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -lm
 
