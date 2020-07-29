@@ -22,15 +22,16 @@ typedef unsigned long bitset_index_t;
 bitset_index_t jmeno_pole[ARRAY_SIZE(velikost)];\
 static_assert(velikost > 0,"Velkost pola musi byt vacsia ako 0!");\
 jmeno_pole[0] = velikost;\
-for (bitset_index_t i = 1;i < ARRAY_SIZE(velikost);i++) jmeno_pole[i] = 0;
+for (bitset_index_t i = 1;i < ARRAY_SIZE(velikost);i++) jmeno_pole[i] = 0
+
 
 #define bitset_alloc(jmeno_pole,velikost)\
 bitset_t jmeno_pole = calloc(ARRAY_SIZE(velikost),BITUL_SIZE);\
 if (jmeno_pole == NULL) error_exit("bitset_alloc: Chyba alokace pameti\n");\
 assert(velikost <= 500000000 && velikost > 0);\
-jmeno_pole[0] = velikost;
+jmeno_pole[0] = velikost
 
-#define bitset_free(jmeno_pole) free(jmeno_pole);
+#define bitset_free(jmeno_pole) free(jmeno_pole)
 
 #ifndef USE_INLINE        //pouzije makro funkcie
 
@@ -39,7 +40,7 @@ jmeno_pole[0] = velikost;
   #define bitset_setbit(jmeno_pole,index,vyraz)\
   if (index+1 > bitset_size(jmeno_pole)+1) error_exit("bitset_setbit: Index %lu mimo rozsah 0..%lu\n", (bitset_index_t)index, (bitset_index_t)bitset_size(jmeno_pole));\
   (vyraz != 0 ? (jmeno_pole[(index / BITUL_SIZE)+1] = (jmeno_pole[(index / BITUL_SIZE)+1]) | (1UL << (index%BITUL_SIZE)))\
-  : (jmeno_pole[(index / BITUL_SIZE)+1] = (jmeno_pole[(index / BITUL_SIZE)+1]) & (~(1UL << (index%BITUL_SIZE)))));
+  : (jmeno_pole[(index / BITUL_SIZE)+1] = (jmeno_pole[(index / BITUL_SIZE)+1]) & (~(1UL << (index%BITUL_SIZE)))))
 
   #define bitset_getbit(jmeno_pole,index)\
   ((index+1 > bitset_size(jmeno_pole)+1) ? error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu\n", (bitset_index_t)index, (bitset_index_t)bitset_size(jmeno_pole)),0\

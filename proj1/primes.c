@@ -13,7 +13,7 @@
 
 int main(){
 
-    clock_t start = clock();
+    //clock_t start = clock();
 
 	bitset_create(pole,N);
 	Eratosthenes(pole);
@@ -29,7 +29,7 @@ int main(){
         }
 	}
 
-    fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
+    //fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
 	
     return 0;
 }
