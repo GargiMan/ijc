@@ -7,11 +7,12 @@
 #include "bitset.h"
 #include "eratosthenes.h"
 #include <time.h>
+#include <stdio.h>
 
 #define N 500000000     //maximalna velkost prvocisla
 #define X 10            //pocet cisiel ktore sa maju vypisat
 
-int main(){
+int main(void){
 
     //clock_t start = clock();
 

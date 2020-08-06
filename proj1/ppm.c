@@ -10,9 +10,9 @@
 #include "error.h"
 #include "ppm.h"
 
-struct ppm * ppm_read(const char * filename) {
+struct ppm *ppm_read(const char *filename) {
 
-    FILE * file = fopen(filename, "r");
+    FILE *file = fopen(filename, "r");
     if (file == NULL) {
         warning_msg("%s : Subor sa nepodarilo otvorit\n", filename);
         fclose(file);
@@ -23,7 +23,7 @@ struct ppm * ppm_read(const char * filename) {
     unsigned int imgxsize,imgysize;
     int tmp;
 
-    if ((fscanf(file, "%s %u %u %d", imgformat, &imgxsize, &imgysize, &tmp)) != 4) {
+    if ((fscanf(file, "%s %u %u %d\n", imgformat, &imgxsize, &imgysize, &tmp)) != 4) {
         warning_msg("%s : Hlavicka suboru sa nepodarila nacitat\n", filename);
         fclose(file);
 		return NULL;
@@ -53,15 +53,7 @@ struct ppm * ppm_read(const char * filename) {
 
     img->xsize=imgxsize;
     img->ysize=imgysize;
-
-    char test;
-
-	if ((fscanf(file,"%c", &test)) != 1){
-		warning_msg("%s : Pri nacitavani dat sa vyskytla chyba\n");
-        fclose(file);
-		return NULL;
-	}
-
+    
     if (fread(img->data, sizeof(char), imgsize, file) != imgsize) {
         warning_msg("%s : Velkost obrazku v hlavicke suboru sa nazhoduje s velkostou obrazku v datach\n", filename);
         fclose(file);

@@ -4,6 +4,9 @@
 // Přeloženo: gcc 7.5.0
 // hlavicka suboru ppm.c
 
+#ifndef PPM_H
+#define PPM_H
+
 #define IMG_SIZE_LIMIT (8000*8000*3)
 
 struct ppm {
@@ -15,3 +18,5 @@ struct ppm {
 struct ppm * ppm_read(const char * filename);
 
 void ppm_free(struct ppm *p);
+
+#endif // PPM_H

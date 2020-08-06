@@ -2,7 +2,7 @@
 // Řešení IJC-DU1, příklad B), 17.3.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-//
+// funckie na vypis chybovej hlasky , popripade aj ukoncenie programu
 
 #include <stdarg.h>
 #include <stdio.h>

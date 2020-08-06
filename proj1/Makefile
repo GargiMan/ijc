@@ -15,9 +15,9 @@ ppm.o: ppm.c ppm.h
 
 error.o: error.c error.h
 
-primes.o: primes.c eratosthenes.h bitset.h
+primes.o: primes.c eratosthenes.c eratosthenes.h bitset.h
 
-steg-decode.o: steg-decode.c eratosthenes.h bitset.h ppm.h
+steg-decode.o: steg-decode.c eratosthenes.c eratosthenes.h bitset.h ppm.h
 
 eratosthenes.o: eratosthenes.c eratosthenes.h bitset.h 
 
@@ -35,7 +35,7 @@ run: all
 	./primes-i
 
 clean: 
-	$(RM) *.o primes primes-i steg-decode xgerge01.zip
+	$(RM) *.o primes primes-i steg-decode
 
 zip: *.c *.h Makefile
 	zip xgerge01.zip *.c *.h Makefile

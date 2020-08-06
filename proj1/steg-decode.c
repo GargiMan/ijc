@@ -7,10 +7,11 @@
 #include "ppm.h"
 #include "bitset.h"
 #include "eratosthenes.h"
+#include <stdio.h>
 
-int main(int argc, char const *argv[]) {
-
-    if (argc != 3) error_exit("Bol zadany nevhodny pocet argumentov\n");
+int main(int argc, char *argv[]) {
+    
+    if (argc != 2) error_exit("Bol zadany nespravny pocet argumentov\n");
 
     struct ppm *img = ppm_read(argv[1]);
     if (img == NULL) error_exit("%s : Subor sa nepodarilo nacitat\n", argv[1]);
