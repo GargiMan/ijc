@@ -170,7 +170,7 @@ B) Napište modul "error.c" s rozhraním v "error.h", který definuje
     alternativní způsoby hlášení různých chyb.]
 
    Můžete omezit max. velikost obrazových dat vhodným implementačním
-    limitem (např 8000*8000*3).
+    limitem (např 8000 * 8000 * 3).
 
    Popis formátu PPM najdete na Internetu, implementujte pouze
    binární variantu P6 s barvami 0..255 a bez komentářů:
