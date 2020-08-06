@@ -20,6 +20,7 @@ Příklady: (budou opravovány v prostředí Linux/GCC,
 A) V rozhraní "bitset.h" definujte pro datovou strukturu typu pole bitů:
 
    Typ:
+   
      typedef <DOPLNIT> bitset_t;
        Typ bitového pole (pro předávání parametru do funkce odkazem).
 
@@ -27,6 +28,7 @@ A) V rozhraní "bitset.h" definujte pro datovou strukturu typu pole bitů:
         Typ indexu do bitového pole.
 
    Makra:
+   
      bitset_create(jmeno_pole,velikost)
        definuje a _nuluje_ proměnnou jmeno_pole
        (POZOR: opravdu musí _INICIALIZOVAT_ pole bez ohledu na
@@ -144,7 +146,7 @@ B) Napište modul "error.c" s rozhraním v "error.h", který definuje
    (funkcí vfprintf) a potom pouze error_exit ukončí program voláním
    funkce exit(1).  Použijte definice ze stdarg.h.
 
- * Napište modul "ppm.c" s rozhraním "ppm.h",
+   Napište modul "ppm.c" s rozhraním "ppm.h",
    ve kterém definujete typ:
 
      struct ppm {
@@ -163,40 +165,41 @@ B) Napište modul "error.c" s rozhraním v "error.h", který definuje
      void ppm_free(struct ppm *p);
         uvolní paměť dynamicky alokovanou v ppm_read
 
-    Můžete doplnit další funkce, ale pro DU1 to není nutné.
+   Můžete doplnit další funkce, ale pro DU1 to není nutné.
     [Zamyslete se nad (ne)vhodností použití warning_msg() a promyslete
     alternativní způsoby hlášení různých chyb.]
 
-    Můžete omezit max. velikost obrazových dat vhodným implementačním
+   Můžete omezit max. velikost obrazových dat vhodným implementačním
     limitem (např 8000*8000*3).
 
-    Popis formátu PPM najdete na Internetu, implementujte pouze
-    binární variantu P6 s barvami 0..255 a bez komentářů:
+   Popis formátu PPM najdete na Internetu, implementujte pouze
+   binární variantu P6 s barvami 0..255 a bez komentářů:
+   
       "P6" <ws>+
       <xsizetxt> <ws>+ <ysizetxt> <ws>+
       "255" <ws>
       <binární data, 3*xsize*ysize bajtů RGB>
       <EOF>
 
-  * Napište testovací program "steg-decode.c", kde ve funkci main načtete ze
+   Napište testovací program "steg-decode.c", kde ve funkci main načtete ze
     souboru zadaného jako jediný argument programu obrázek ve formátu PPM
     a v něm najdete uloženou "tajnou" zprávu. Zprávu vytisknete na stdout.
 
-    Zpráva je řetězec znaků (char, včetně '\0') uložený po jednotlivých bitech
+   Zpráva je řetězec znaků (char, včetně '\0') uložený po jednotlivých bitech
     (počínaje LSb) na nejnižších bitech (LSb) vybraných bajtů barevných složek
     v datech obrázku. Dekódování ukončete po dosažení '\0'.
     Pro DU1 budou vybrané bajty určeny prvočísly (počínaje od 23) -- použijte
     Eratostenovo síto podobně jako v příkladu "primes.c" a začněte prvočíslem 23.
     Velikost bitového pole musí odpovídat velikosti obrazových dat.
 
-    Program použije error_exit v případě chyby čtení souboru (chybný formát),
+   Program použije error_exit v případě chyby čtení souboru (chybný formát),
     a v případě, že zpráva není korektně ukončena '\0'. Předpokládejte
     možnost uložení textu zprávy ve formátu UTF-8.
 
-    Použijte program "make" pro překlad/sestavení programu.
+   Použijte program "make" pro překlad/sestavení programu.
     Testovací příkaz:  ./steg-decode du1-obrazek.ppm
 
-    Zájemci si mohou vytvořit i program "steg-encode.c" (nehodnotí se).
+   Zájemci si mohou vytvořit i program "steg-encode.c" (nehodnotí se).
     Zamyslete se nad (ne)vhodností použití implementačních limitů.
 
 (8b)
