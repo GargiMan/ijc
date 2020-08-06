@@ -16,9 +16,9 @@ typedef unsigned long* bitset_t;
 
 typedef unsigned long bitset_index_t;
 
-#define BIT_SIZE (CHAR_BIT*sizeof(bitset_index_t))                                              //velkost datoveho typu v bitoch
+#define TYPE_BIT_SIZE (CHAR_BIT*sizeof(bitset_index_t))                                         //velkost datoveho typu v bitoch
 
-#define ARRAY_SIZE(size) ((size%BIT_SIZE != 0 ? (size/BIT_SIZE)+1 : (size/BIT_SIZE)) +1)        //vypocet velkosti pola z poctu bitov
+#define ARRAY_SIZE(size) ((size%TYPE_BIT_SIZE != 0 ? (size/TYPE_BIT_SIZE)+1 : (size/TYPE_BIT_SIZE)) +1)        //vypocet velkosti pola z poctu bitov
 
 #define bitset_create(jmeno_pole,velikost)\
 bitset_index_t jmeno_pole[ARRAY_SIZE(velikost)];\
@@ -39,14 +39,15 @@ jmeno_pole[0] = velikost
 
   #define bitset_size(jmeno_pole) jmeno_pole[0]
 
-  #define bitset_setbit(jmeno_pole,index,vyraz)\
+  #define bitset_setbit(jmeno_pole,index,vyraz) do {\
   if (index+1 > bitset_size(jmeno_pole)+1) error_exit("bitset_setbit: Index %lu mimo rozsah 0..%lu\n", (bitset_index_t)index, (bitset_index_t)bitset_size(jmeno_pole));\
-  (vyraz != 0 ? (jmeno_pole[(index / BIT_SIZE)+1] = (jmeno_pole[(index / BIT_SIZE)+1]) | (1UL << (index%BIT_SIZE)))\
-  : (jmeno_pole[(index / BIT_SIZE)+1] = (jmeno_pole[(index / BIT_SIZE)+1]) & (~(1UL << (index%BIT_SIZE)))))
+  (vyraz != 0 ? (jmeno_pole[(index / TYPE_BIT_SIZE)+1] = (jmeno_pole[(index / TYPE_BIT_SIZE)+1]) | (1UL << (index%TYPE_BIT_SIZE)))\
+  : (jmeno_pole[(index / TYPE_BIT_SIZE)+1] = (jmeno_pole[(index / TYPE_BIT_SIZE)+1]) & (~(1UL << (index%TYPE_BIT_SIZE)))));\
+  } while (0)
 
   #define bitset_getbit(jmeno_pole,index)\
-  ((index+1 > bitset_size(jmeno_pole)+1) ? error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu\n", (bitset_index_t)index, (bitset_index_t)bitset_size(jmeno_pole)),0\
-  : ((jmeno_pole[(index / BIT_SIZE)+1] & (1UL << (index%BIT_SIZE))) >> (index%BIT_SIZE)))
+  ((index+1 > bitset_size(jmeno_pole)+1) ? (error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu\n", (bitset_index_t)index, (bitset_index_t)bitset_size(jmeno_pole)),0)\
+  : ((jmeno_pole[(index / TYPE_BIT_SIZE)+1] & (1UL << (index%TYPE_BIT_SIZE))) >> (index%TYPE_BIT_SIZE)))
 
 #else //USE_INLINE                                                                              //inline funkcie
 
@@ -58,9 +59,9 @@ jmeno_pole[0] = velikost
     if (index > bitset_size(jmeno_pole)) {
       error_exit("bitset_setbit: Index %lu mimo rozsah 0..%lu\n", index, bitset_size(jmeno_pole));
     } else if (vyraz != 0) {
-      jmeno_pole[(index / BIT_SIZE)+1] = ((jmeno_pole[(index / BIT_SIZE)+1]) | (1UL << (index%BIT_SIZE)));
+      jmeno_pole[(index / TYPE_BIT_SIZE)+1] = ((jmeno_pole[(index / TYPE_BIT_SIZE)+1]) | (1UL << (index%TYPE_BIT_SIZE)));
     } else {
-      jmeno_pole[(index / BIT_SIZE)+1] = ((jmeno_pole[(index / BIT_SIZE)+1]) & (~(1UL << (index%BIT_SIZE)))); 
+      jmeno_pole[(index / TYPE_BIT_SIZE)+1] = ((jmeno_pole[(index / TYPE_BIT_SIZE)+1]) & (~(1UL << (index%TYPE_BIT_SIZE)))); 
     }
 
     return;
@@ -71,7 +72,7 @@ jmeno_pole[0] = velikost
       error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu\n", index, bitset_size(jmeno_pole));
     }
       
-    return (jmeno_pole[(index / BIT_SIZE)+1] & (1UL << (index%BIT_SIZE))) >> (index%BIT_SIZE);
+    return (jmeno_pole[(index / TYPE_BIT_SIZE)+1] & (1UL << (index%TYPE_BIT_SIZE))) >> (index%TYPE_BIT_SIZE);
   }
   
 #endif //USE_INLINE

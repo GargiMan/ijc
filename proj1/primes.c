@@ -9,7 +9,7 @@
 #include <time.h>
 #include <stdio.h>
 
-#define N 500000000     //maximalna velkost prvocisla
+#define N 10000000      //maximalna velkost prvocisla
 #define X 10            //pocet cisiel ktore sa maju vypisat
 
 int main(void){

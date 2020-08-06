@@ -2,7 +2,7 @@
 // Řešení IJC-DU1, příklad A), 17.3.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// eratosthenova funckia , oznacenie prvocisel v bitovom indexe hodnotou 1
+// eratosthenesova funckia , oznacenie prvocisel v bitovom indexe hodnotou 1
 
 #include <math.h>
 #include "eratosthenes.h"
