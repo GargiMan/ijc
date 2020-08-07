@@ -27,7 +27,23 @@ int main(int argc, char* argv[]) {
     //search for last -n argument
     for (int i = 1;i < argc;i++) {
 
-        //check if argument is -n and if its followed by value
+        //print usage manual
+        if (strcmp(argv[i],"--help") == 0) {
+
+            printf("Usage: ./tail [OPTION]... [FILE]...\n\n");
+            printf("Print the last 10 lines of each FILE to standard output.\n");
+            printf("With no FILE, read standart input.\n");
+            printf("Lines are limited to %d characters.\n\n",LINELIMIT-1);
+            printf("Options:\n");
+            printf("\t-n NUM\t\toutput the last NUM lines, instead of the last 10,\n");
+            printf("\t\t\t  use -n +NUM to output starting with line NUM,\n");
+            printf("\t\t\t  NUM can be in octal (0...), hexadecimal (0x...) or decimal form\n");
+            printf("\t--help\t\tdisplay this help and exit\n");
+
+            return 0;
+        }
+
+        //change number of lines to be printed
         if (strcmp(argv[i],"-n") == 0 ) {
             if (argc > ++i) {
 
@@ -35,19 +51,20 @@ int main(int argc, char* argv[]) {
                 char* ptr;
                 nlines = strtoul(argv[i], &ptr ,0);
 
+                if (strcmp(ptr,"") != 0) 
+                    error_exit("argument \'%s\' is not correct numeric value\nUse --help option for info\n", argv[i]);
+
                 //invert line read
                 if (argv[i][0] == 43) 
                     invert = !invert;
 
                 //check -n argument value
-                if (strcmp(ptr,"") != 0) 
-                    error_exit("argument \'%s\' is not correct decimal value \n", argv[i]);
-                if (argv[i][0] == 45 || nlines == ULONG_MAX) 
-                    error_exit("argument \'%s\' must be more than 0 and less than %lu (unsgined long) \n", argv[i], ULONG_MAX);
-
+                if (argv[i][0] == 45 || nlines == ULONG_MAX)
+                    error_exit("argument \'%s\' must be more than 0 and less than %lu (unsgined long)\nUse --help option for info\n", argv[i], ULONG_MAX);
+                
             //argument -n without value
             } else {
-                error_exit("argument \'-n\' needs to be followed by number\n");
+                error_exit("argument \'-n\' needs to be followed by number\nUse --help option for info\n");
             }
         }
     }
@@ -56,8 +73,7 @@ int main(int argc, char* argv[]) {
     if (nlines == 0 && invert) 
         return 0;
 
-    //variable set
-    bool fread = 0;                     //dont ignore stdin until checked for files in arguments
+    bool fread = 0;         // if any of arguments is valid file, othewise read stdin   
 
     //search for files in arguments
     for (int i = 1;i < argc;i++) {
@@ -70,9 +86,9 @@ int main(int argc, char* argv[]) {
 
         //open and check file
         FILE* file = fopen(argv[i], "r"); 
-        if (file == NULL) 
-            error_exit("cannot open \'%s\' for reading: No such file or directory\n", argv[i]);
-        
+        if (file == NULL)
+            error_exit("cannot open \'%s\' for reading: No such file or directory\nUse --help option for info\n", argv[i]);
+
         //ignore stdin
         fread = 1;
 
@@ -82,8 +98,7 @@ int main(int argc, char* argv[]) {
     }
 
     //read stdin
-    if (fread == 0) 
-        readnprint(stdin,nlines,invert);
+    if (fread == 0) readnprint(stdin,nlines,invert);
 
     return 0;
 }
@@ -153,6 +168,7 @@ void readnprint(FILE* stream, unsigned long nlines, bool invert) {
             
             //warning once line exceeded limit
             if (strchr(rline,'\n') == NULL && strlen(rline) == LINELIMIT-1) {
+
                 if (warningprinted) {
                     warningprinted = 0;
                     warning_msg("numbers of chars on single line exceeded limit %lu chars\n",LINELIMIT);

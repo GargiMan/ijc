@@ -16,9 +16,9 @@ typedef unsigned long* bitset_t;
 
 typedef unsigned long bitset_index_t;
 
-#define TYPE_BIT_SIZE (CHAR_BIT*sizeof(bitset_index_t))                                         //velkost datoveho typu v bitoch
+#define TYPE_BIT_SIZE (CHAR_BIT*sizeof(bitset_index_t))                                                         //velkost datoveho typu v bitoch
 
-#define ARRAY_SIZE(size) ((size%TYPE_BIT_SIZE != 0 ? (size/TYPE_BIT_SIZE)+1 : (size/TYPE_BIT_SIZE)) +1)        //vypocet velkosti pola z poctu bitov
+#define ARRAY_SIZE(size) ((size%TYPE_BIT_SIZE != 0 ? (size/TYPE_BIT_SIZE)+1 : (size/TYPE_BIT_SIZE)) +1)         //vypocet velkosti pola z poctu bitov
 
 #define bitset_create(jmeno_pole,velikost)\
 bitset_index_t jmeno_pole[ARRAY_SIZE(velikost)];\
@@ -35,7 +35,7 @@ jmeno_pole[0] = velikost
 
 #define bitset_free(jmeno_pole) free(jmeno_pole)
 
-#ifndef USE_INLINE                                                                              //makro funkcie
+#ifndef USE_INLINE                                                                                              //makro funkcie
 
   #define bitset_size(jmeno_pole) jmeno_pole[0]
 
@@ -49,7 +49,7 @@ jmeno_pole[0] = velikost
   ((index+1 > bitset_size(jmeno_pole)+1) ? (error_exit("bitset_getbit: Index %lu mimo rozsah 0..%lu\n", (bitset_index_t)index, (bitset_index_t)bitset_size(jmeno_pole)),0)\
   : ((jmeno_pole[(index / TYPE_BIT_SIZE)+1] & (1UL << (index%TYPE_BIT_SIZE))) >> (index%TYPE_BIT_SIZE)))
 
-#else //USE_INLINE                                                                              //inline funkcie
+#else //USE_INLINE                                                                                              //inline funkcie
 
   static inline bitset_index_t bitset_size(bitset_t jmeno_pole) {
     return jmeno_pole[0];
