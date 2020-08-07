@@ -138,13 +138,15 @@ Poznámky:  Eratosthenovo síto (přibližná specifikace):
 
 
 
-B) Napište modul "error.c" s rozhraním v "error.h", který definuje
-   funkci void warning_msg(const char *fmt, ...) a
-   funkci void error_exit(const char *fmt, ...). Tyto funkce mají
-   stejné parametry jako printf(); tisknou text "CHYBA: " a potom
-   chybové hlášení podle formátu fmt. Vše se tiskne do stderr
-   (funkcí vfprintf) a potom pouze error_exit ukončí program voláním
-   funkce exit(1).  Použijte definice ze stdarg.h.
+B) Napište modul "error.c" s rozhraním v "error.h", který definuje funkce
+```
+   void warning_msg(const char *fmt, ...) 
+   void error_exit(const char *fmt, ...)
+```
+Tyto funkce mají stejné parametry jako printf(); tisknou text "CHYBA: " 
+a potom chybové hlášení podle formátu fmt. Vše se tiskne do stderr
+(funkcí vfprintf) a potom pouze error_exit ukončí program voláním funkce exit(1).  
+Použijte definice ze stdarg.h.
 
    Napište modul "ppm.c" s rozhraním "ppm.h",
    ve kterém definujete typ:
