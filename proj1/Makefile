@@ -15,9 +15,9 @@ ppm.o: ppm.c ppm.h
 
 error.o: error.c error.h
 
-primes.o: primes.c eratosthenes.c eratosthenes.h bitset.h
+primes.o: primes.c
 
-steg-decode.o: steg-decode.c eratosthenes.c eratosthenes.h bitset.h ppm.h
+steg-decode.o: steg-decode.c
 
 eratosthenes.o: eratosthenes.c eratosthenes.h bitset.h 
 
@@ -27,8 +27,8 @@ primes: eratosthenes.o primes.o error.o
 primes-i: eratosthenes.o primes.o error.o
 	$(CC) $(CFLAGS) eratosthenes.o primes.o error.o -DUSE_INLINE -o $@ -lm
 
-steg-decode: steg-decode.o ppm.o error.o eratosthenes.o 
-	$(CC) $(CFLAGS) steg-decode.o ppm.o error.o eratosthenes.o -o $@ -lm
+steg-decode: eratosthenes.o steg-decode.o ppm.o error.o
+	$(CC) $(CFLAGS) eratosthenes.o steg-decode.o ppm.o error.o  -o $@ -lm
 
 run: all
 	./primes

@@ -2,16 +2,17 @@
 // Řešení IJC-DU1, příklad B), 18.3.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// desifruje spravu z dat ppm suboru
+// dekoduje spravu z dat ppm suboru
 
+#include <stdio.h>
 #include "ppm.h"
 #include "bitset.h"
 #include "eratosthenes.h"
-#include <stdio.h>
+#include "error.h"
 
 int main(int argc, char *argv[]) {
-    
-    if (argc != 2) error_exit("Bol zadany nespravny pocet argumentov\n");
+
+    if (argc != 2) error_exit("Nespravny pocet argumentov, príklad správneho použitia: ./steg-decode <nazov_suboru.ppm>\n");
 
     struct ppm *img = ppm_read(argv[1]);
     if (img == NULL) error_exit("%s : Subor sa nepodarilo nacitat\n", argv[1]);
@@ -20,7 +21,7 @@ int main(int argc, char *argv[]) {
 
     bitset_alloc(pole, imgsize);
 	Eratosthenes(pole);
-    
+
     char printc = '\0';
     int countc = 0;
 
@@ -40,7 +41,9 @@ int main(int argc, char *argv[]) {
     }
 
     fputc('\n',stdout);
-    
+
+    bitset_free(pole);
     ppm_free(img);
+    
     return 0;
 }

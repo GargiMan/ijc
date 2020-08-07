@@ -4,17 +4,17 @@
 // Přeloženo: gcc 7.5.0
 // vypocet casu za ktory sa vykona program , vyhladanie a vypis poslednych 10 prvocisel
 
+#include <stdio.h>
+#include <time.h>
 #include "bitset.h"
 #include "eratosthenes.h"
-#include <time.h>
-#include <stdio.h>
 
-#define N 10000000      //maximalna velkost prvocisla
+#define N 5000000       //maximalna velkost prvocisla
 #define X 10            //pocet cisiel ktore sa maju vypisat
 
 int main(void){
 
-    //clock_t start = clock();
+    clock_t start = clock();
 
 	bitset_create(pole,N);
 	Eratosthenes(pole);
@@ -30,7 +30,7 @@ int main(void){
         }
 	}
 
-    //fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
+    fprintf(stderr, "Time=%.3g\n", (double)(clock()-start)/CLOCKS_PER_SEC);
 	
     return 0;
 }
