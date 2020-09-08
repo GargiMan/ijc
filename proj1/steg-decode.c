@@ -12,10 +12,12 @@
 
 int main(int argc, char *argv[]) {
 
-    if (argc != 2) error_exit("Nespravny pocet argumentov, príklad správneho použitia: ./steg-decode <nazov_suboru.ppm>\n");
+    if (argc != 2) 
+        error_exit("Incorrect number of arguments, usage:\n./steg-decode [FILE]\nDecode FILE and print message\n");
 
     struct ppm *img = ppm_read(argv[1]);
-    if (img == NULL) error_exit("%s : Subor sa nepodarilo nacitat\n", argv[1]);
+    if (img == NULL) 
+        error_exit("%s : File couldn't be loaded\n", argv[1]);
 
     unsigned long imgsize = (img->xsize)*(img->ysize)*3;
 

@@ -13,18 +13,18 @@
 
 #define LINELIMIT 1024                  //1023+1 , limit for number of char in single line
 
-void readnprint(FILE* stream, unsigned long nlines, bool invert);
+void readnprint(FILE *stream, unsigned long nlines, bool invert);
 void error_exit(const char *fmt, ...);
 void warning_msg(const char *fmt, ...);
 
 // tail function
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
-    //variables for -n argument
+    //variables for lines to print
     bool invert = 1;                    //invert to print from bottom or top
     unsigned long nlines = 10;          //number of lines to print, default - 10
 
-    //search for last -n argument
+    //parse arguments
     for (int i = 1;i < argc;i++) {
 
         //print usage manual

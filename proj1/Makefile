@@ -9,7 +9,7 @@ CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -lm
 
-all: primes primes-i steg-decode
+all: primes primes-i steg-decode steg-encode
 
 ppm.o: ppm.c ppm.h
 
@@ -18,6 +18,8 @@ error.o: error.c error.h
 primes.o: primes.c
 
 steg-decode.o: steg-decode.c
+
+steg-encode.o: steg-encode.c
 
 eratosthenes.o: eratosthenes.c eratosthenes.h bitset.h 
 
@@ -30,12 +32,15 @@ primes-i: eratosthenes.o primes.o error.o
 steg-decode: eratosthenes.o steg-decode.o ppm.o error.o
 	$(CC) $(CFLAGS) eratosthenes.o steg-decode.o ppm.o error.o  -o $@ -lm
 
+steg-encode: eratosthenes.o steg-encode.o ppm.o error.o
+	$(CC) $(CFLAGS) eratosthenes.o steg-encode.o ppm.o error.o  -o $@ -lm
+
 run: all
 	./primes
 	./primes-i
 
 clean: 
-	$(RM) *.o primes primes-i steg-decode
+	$(RM) *.o primes primes-i steg-decode steg-encode
 
 zip: *.c *.h Makefile
 	zip xgerge01.zip *.c *.h Makefile
