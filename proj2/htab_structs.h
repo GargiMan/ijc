@@ -10,14 +10,14 @@
 #include "htab.h"
 
 struct htab {
-    size_t size;                    //aktualny pocet zaznamov [key,data,next]
-    size_t arr_size;                //velkost nasledujuceho pola ukazatelov
-    struct htab_item *array[];      //pole ukazatelov
+    size_t size;                    //aktualny pocet zaznamov [key,data,next] v tabulke
+    size_t arr_size;                //velkost pola ukazatelov 
+    struct htab_item *array[];      //pole ukazatelov (ptr na NULL alebo na 1. zaznam)
 };
 
 struct htab_item {
-    char *key;                      //hash kluc prvku
-    int data;                       //hodnota(obsah) prvku
+    htab_key_t key;                 //hash kluc prvku
+    htab_value_t data;              //hodnota(obsah) prvku
     struct htab_item *next;         //ukazatel na dalsi prvok
 };
 

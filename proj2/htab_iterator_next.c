@@ -10,10 +10,15 @@
 
 htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
-    if (htab_iterator_valid(it) == NULL)
-        return it;
+    if (htab_iterator_valid(it) == NULL) return it;
 
-    //not finished yet
+    htab_iterator_t it_next = {NULL,NULL,it->idx}
 
-    return it;
+    if (it->ptr->next == NULL) {
+
+        if (it->t->arr_size == it->idx) return htab_end(it->t);
+
+    } 
+
+    return;
 }

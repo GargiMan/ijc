@@ -9,26 +9,26 @@
 #include "htab.h"
 #include "htab_structs.h"
 
-htab_t *htab_init(size_t n) {
+htab_t* htab_init(size_t n) {
 
     if (n == 0) {
         fprintf(stderr,"Error : size of table need to be bigger than 0\n");
         return NULL;
     }
 
-    //                   velkost struktury  velkost 1 zaznamu * pocet vsetkych   
-    htab_t *table = malloc(sizeof(htab_t) + sizeof(struct htab_item *) * n); 
+    //                     velkost struktury + velkost ptr zaznamu * pocet
+    htab_t* tab = malloc(sizeof(htab_t) + sizeof(struct htab_item*) * n); 
 
-    if (table == NULL) {
+    if (tab == NULL) {
         fprintf(stderr,"Error : table allocation failed\n");
         return NULL;
     }
 
-    table->size=0;
-    table->arr_size = n;
+    tab->size=0;
+    tab->arr_size = n;
 
     for (size_t i = 0; i < n; i++)
-        table->array[i] = NULL;
+        tab->array[i] = NULL;
 
-    return table;
+    return tab;
 }

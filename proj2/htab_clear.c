@@ -8,20 +8,24 @@
 #include "htab.h"
 #include "htab_structs.h"
 
-void htab_clear(htab_t * t) {
+void htab_clear(htab_t* t) {
 
-    if (t == NULL)
-        return;
+    if (t == NULL) return;
 
     for (size_t i = 0; i < t->arr_size; i++) {
-        
-        for (struct htab_item *nextitem; t->array[i] != NULL; t->array[i] = nextitem) {
 
-            nextitem = t->array[i]->next;
+        struct htab_item* next_item;
+
+        while (t->array[i] != NULL) {
+
+            next_item = t->array[i]->next;
             free(t->array[i]->key);
             free(t->array[i]);
+            t->array[i] = next_item;
         }
     }
+
+    t->size = 0;
 
     return;
 }
