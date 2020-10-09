@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// vrati pocet prvkov tabulky
+// vrati pocet zaznamov tabulky
 
 #include "htab.h"
 #include "htab_structs.h"

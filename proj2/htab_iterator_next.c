@@ -4,9 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // posunie iterator o 1 dalej
 
-#include <stdlib.h>
 #include "htab.h"
-#include "htab_structs.h"
 
 htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
@@ -22,3 +20,5 @@ htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
     return;
 }
+
+// ZLE ?

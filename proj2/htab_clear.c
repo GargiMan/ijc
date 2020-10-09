@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// vymaze vsetky prvky tabulky
+// vymaze vsetky zaznamy v tabulke
 
 #include <stdlib.h>
 #include "htab.h"
@@ -12,9 +12,9 @@ void htab_clear(htab_t* t) {
 
     if (t == NULL) return;
 
-    for (size_t i = 0; i < t->arr_size; i++) {
+    struct htab_item* next_item;
 
-        struct htab_item* next_item;
+    for (size_t i = 0; i < t->arr_size; i++) {
 
         while (t->array[i] != NULL) {
 
