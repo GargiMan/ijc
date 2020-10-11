@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// nastavi iterator za posledny zaznam v tabulke
+// return iterator behind last item
 
 #include <stdlib.h>
 #include "htab.h"
@@ -10,20 +10,20 @@
 
 htab_iterator_t htab_end(const htab_t * t) {
 
-    htab_iterator_t it_end = {NULL,NULL,0};
+    //new iterator for return
+    htab_iterator_t it_end = {NULL, t, 0};
 
-    if (t != NULL) {
+    //check table pointer
+    if (t == NULL) return it_end;
 
-        it_end.t = t;
-        it_end.idx = t->arr_size - 1;
+    //set index after table pointer check
+    it_end.idx = t->arr_size - 1;
 
-        for (size_t i = 0; i < t->arr_size; i++) {
-            if (t->array[i] == NULL) {
-                it_end.idx = i;
-                break;
-            }
-        }
-    }
+    //search for last index with item
+    while (it_end.idx >= 0 && t->array[it_end.idx] == NULL) it_end.idx--;
+
+    //not last index is end
+    if (it_end.idx != t->arr_size - 1) it_end.idx++;
 
     return it_end;
 }

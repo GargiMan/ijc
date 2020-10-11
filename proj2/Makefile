@@ -21,3 +21,5 @@ clean:
 
 zip: *.c *.h Makefile
 	zip xgerge01.zip *.c *.h Makefile
+
+# hash table make

@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad A), 19.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// program vypíše posledných n(10) riadkov zo suboru alebo stdin
+// like posix tail , print last n(10) lines from stdin (or file)
 
 #include <stdio.h>
 #include <stdlib.h>

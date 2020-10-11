@@ -2,23 +2,33 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// posunie iterator o 1 dalej
+// move iterator to next item in table
 
 #include "htab.h"
 
 htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
+    //check iterator
     if (htab_iterator_valid(it) == NULL) return it;
 
-    htab_iterator_t it_next = {NULL,NULL,it->idx}
+    //new iterator for return
+    htab_iterator_t it_next = {NULL, it->t, it->idx}
 
-    if (it->ptr->next == NULL) {
+    //not last item at index
+    if (it->ptr->next != NULL) {
+        
+        //move to next item within same index
+        it_next->ptr = it->ptr->next;
 
-        if (it->t->arr_size == it->idx) return htab_end(it->t);
+    //last at index
+    } else {
 
-    } 
+        //move next index until next is not null
+        while (it_next->ptr == NULL) {
+            if (it_next->t->arr_size == ++it_next->idx) return htab_end(it_next->t);
+            it_next->ptr = it_next->t->array[it_next->idx];
+        }
+    }
 
-    return;
+    return it_next;
 }
-
-// ZLE ?

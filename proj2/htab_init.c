@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// inicializacia tabulky s N velkostou pola
+// initialize table with n size of array
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -16,17 +16,18 @@ htab_t* htab_init(size_t n) {
         return NULL;
     }
 
-    //                     velkost struktury + velkost ptr zaznamu * pocet
+    //table allocation = table struct + item struct pointer * array size
     htab_t* tab = malloc(sizeof(htab_t) + sizeof(struct htab_item*) * n); 
-
-    if (!tab) {
+    if (tab == NULL) {
         fprintf(stderr,"Error : table allocation failed\n");
         return NULL;
     }
 
-    tab->size=0;
+    //set table array size and number of items
+    tab->size = 0;
     tab->arr_size = n;
 
+    //set all item pointers to NULL
     for (size_t i = 0; i < n; i++) tab->array[i] = NULL;
 
     return tab;

@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// skryte struktury hash tabulky
+// hidden structs in hash table
 
 #ifndef __HTAB_STRUCTS_H__
 #define __HTAB_STRUCTS_H__

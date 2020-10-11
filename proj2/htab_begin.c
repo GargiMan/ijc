@@ -2,7 +2,7 @@
 // Řešení IJC-DU2, příklad B), 22.4.2020
 // Autor: Marek Gergel, FIT
 // Přeloženo: gcc 7.5.0
-// nastavi iterator na prvy zaznam v tabulke
+// return iterator with first item in table
 
 #include <stdlib.h>
 #include "htab.h"
@@ -10,20 +10,20 @@
 
 htab_iterator_t htab_begin(const htab_t * t) {
 
-    htab_iterator_t it_begin = {NULL,NULL,0};
+    //new iterator for return
+    htab_iterator_t it_begin = {NULL, t, 0};
 
-    if (t != NULL) {
-    
-        it_begin.t = t;
+    //check table pointer
+    if (t == NULL) return it_begin;
 
-        for (size_t i = 0; i < t->arr_size; i++) {
-            if (t->array[i] != NULL) {
-                it_begin.ptr = t->array[i];
-                it_begin.idx = i;
-                break; 
-            }
-        }
-    }
+    //search for first index with item
+    while (it_begin.idx < t->arr_size && t->array[it_begin.idx] == NULL) it_begin.idx++;
+
+    //empty table
+    if (it_begin.idx == t->arr_size) it_begin.idx = 0;
+
+    //set pointer with index
+    it_begin.ptr = t->array[it_begin.idx];
 
     return it_begin;
 }
