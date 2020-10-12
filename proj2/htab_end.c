@@ -20,10 +20,10 @@ htab_iterator_t htab_end(const htab_t * t) {
     it_end.idx = t->arr_size - 1;
 
     //search for last index with item
-    while (it_end.idx >= 0 && t->array[it_end.idx] == NULL) it_end.idx--;
+    while (it_end.idx > 0 && t->array[it_end.idx] == NULL) it_end.idx--;
 
-    //not last index is end
-    if (it_end.idx != t->arr_size - 1) it_end.idx++;
+    //not last index is end or first is end
+    if ((it_end.idx > 0 && it_end.idx < t->arr_size - 1) || (it_end.idx == 0 && t->array[it_end.idx] != NULL)) it_end.idx++;
 
     return it_end;
 }

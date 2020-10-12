@@ -8,8 +8,8 @@
 
 htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
-    //check iterator
-    if (htab_iterator_valid(it) == NULL) return it;
+    //check iterator pointer
+    if (!htab_iterator_valid(it)) return it;
 
     //new iterator for return
     htab_iterator_t it_next = {NULL, it->t, it->idx}

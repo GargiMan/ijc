@@ -40,6 +40,7 @@ htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
     it_found.ptr->key = malloc(strlen(key) + 1);
     if (htab_iterator_get_key(it_found) == NULL) {
         free(it_found.ptr);
+        fprintf(stderr, "Error : allocation for item key failed\n");
         return htab_end(t);
     }
 
@@ -54,5 +55,3 @@ htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
 
     return it_found;
 }
-
-// check if good

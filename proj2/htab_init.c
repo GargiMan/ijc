@@ -11,8 +11,9 @@
 
 htab_t* htab_init(size_t n) {
 
+    //check table size
     if (n == 0) {
-        fprintf(stderr,"Error : size of table need to be bigger than 0\n");
+        fprintf(stderr,"Error : size of table expected to be bigger than 0\n");
         return NULL;
     }
 
