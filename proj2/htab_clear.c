@@ -11,12 +11,15 @@
 void htab_clear(htab_t* t) {
 
     //check table pointer
-    if (t == NULL) return;
+    if (t == NULL) {
+        fprintf(stderr, "Error : table does not exist\n");
+        return;
+    }
 
     //move through next index
     for (size_t i = 0; i < t->arr_size; i++) {
 
-        //move through next pointer
+        //erase item and move to next one
         while (t->array[i] != NULL) {
             struct htab_item* item_next = t->array[i]->next;
             free(t->array[i]->key);

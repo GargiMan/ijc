@@ -10,7 +10,10 @@
 size_t htab_size(const htab_t * t) {
 
     //check table pointer
-    if (t == NULL) return 0;
+    if (t == NULL) {
+        fprintf(stderr, "Error : table does not exist\n");
+        return 0;
+    }
 
     //return number of items in table
     return t->size;

@@ -9,7 +9,10 @@
 htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
     //check iterator pointer
-    if (!htab_iterator_valid(it)) return it;
+    if (!htab_iterator_valid(it)) {
+        fprintf(stderr, "Error : iterator is incorrect or at the end of table\n");
+        return it;
+    }
 
     //new iterator for return
     htab_iterator_t it_next = {NULL, it->t, it->idx}

@@ -14,7 +14,10 @@ htab_iterator_t htab_end(const htab_t * t) {
     htab_iterator_t it_end = {NULL, t, 0};
 
     //check table pointer
-    if (t == NULL) return it_end;
+    if (t == NULL) {
+        fprintf(stderr, "Error : table does not exist\n");
+        return it_end;
+    }
 
     //set index after table pointer check
     it_end.idx = t->arr_size - 1;

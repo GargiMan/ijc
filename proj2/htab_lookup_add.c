@@ -12,8 +12,8 @@
 htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
 
     //check table pointer
-    if (t == NULL) {
-        fprintf(stderr, "Error : table does not exist\n");
+    if (t == NULL || key == NULL) {
+        fprintf(stderr, "Error : table does not exist or key is empty\n");
         return htab_end(t);
     }
 
@@ -40,7 +40,7 @@ htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
     it_found.ptr->key = malloc(strlen(key) + 1);
     if (htab_iterator_get_key(it_found) == NULL) {
         free(it_found.ptr);
-        fprintf(stderr, "Error : allocation for item key failed\n");
+        fprintf(stderr, "Error : allocation for new item key failed\n");
         return htab_end(t);
     }
 

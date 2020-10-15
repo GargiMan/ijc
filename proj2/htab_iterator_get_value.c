@@ -8,5 +8,11 @@
 
 htab_value_t htab_iterator_get_value(htab_iterator_t it) {
 
+    //check iterator pointer
+    if (!htab_iterator_valid(it)) {
+        fprintf(stderr, "Error : iterator is incorrect\n");
+        return NULL;
+    }
+
     //return value from iterator
     return it->ptr->data;

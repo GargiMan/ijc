@@ -14,7 +14,10 @@ htab_iterator_t htab_begin(const htab_t * t) {
     htab_iterator_t it_begin = {NULL, t, 0};
 
     //check table pointer
-    if (t == NULL) return it_begin;
+    if (t == NULL) {
+        fprintf(stderr, "Error : table does not exist\n");
+        return it_begin;
+    }
 
     //search for first index with item
     while (it_begin.idx < t->arr_size && t->array[it_begin.idx] == NULL) it_begin.idx++;

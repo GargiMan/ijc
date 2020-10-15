@@ -10,7 +10,10 @@
 size_t htab_bucket_count(const htab_t * t) {
 
     //check table pointer
-    if (t == NULL) return 0;
+    if (t == NULL) {
+        fprintf(stderr, "Error : table does not exist\n");
+        return;
+    }
 
     //return size of table array
     return t->arr_size;

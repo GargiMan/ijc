@@ -12,22 +12,28 @@
 void htab_erase(htab_t * t, htab_iterator_t it) {
 
     //check table and iterator pointer
-    if (t == NULL || it->ptr == NULL) return;
-
-    //erase item
-    for (size_t i = 0; i < t->arr_size; i++) {
-        for (struct htab_item *item = t->array[i]; item != NULL; item = item->next) {
-
-            if ( it->ptr == item) {
-
-                    //not finished yet
-
-                return;
-            }
-        }
+    if (t == NULL || !htab_iterator_valid(it)) {
+        fprintf(stderr, "Error : table or iterator  does not exist\n");
+        return;
     }
+
+    //first item at index will be erased
+    if (t->array[it->idx] == it->ptr) {
+
+        //change pointer at index
+        t->array[it->idx] = it->ptr->next;
+
+    } else { 
+        
+        //find previous iterator
+        htab_iterator_t it_prev = {t->array[it->idx], t, it->idx};
+        while (it_prev->ptr->next != it->ptr) it_prev->ptr = it_prev->ptr->next;
+        it_prev->ptr->next = it->ptr->next;
+    }
+    
+    //erase item and key
+    free(it->ptr->key);
+    free(it->ptr);
 
     return;
 }
-
-//ZLE
