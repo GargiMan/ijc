@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include "htab.h"
+#include "htab_structs.h"
 
 htab_value_t htab_iterator_get_value(htab_iterator_t it) {
 
@@ -17,3 +18,4 @@ htab_value_t htab_iterator_get_value(htab_iterator_t it) {
 
     //return value from iterator
     return it.ptr->data;
+}

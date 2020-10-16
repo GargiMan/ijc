@@ -13,7 +13,7 @@ void htab_erase(htab_t * t, htab_iterator_t it) {
 
     //check table and iterator pointer
     if (t == NULL || !htab_iterator_valid(it)) {
-        fprintf(stderr, "Error : table or iterator  does not exist\n");
+        fprintf(stderr, "Error : table or iterator does not exist\n");
         return;
     }
 
@@ -30,10 +30,11 @@ void htab_erase(htab_t * t, htab_iterator_t it) {
         while (it_prev.ptr->next != it.ptr) it_prev.ptr = it_prev.ptr->next;
         it_prev.ptr->next = it.ptr->next;
     }
-    
+
     //erase item and key
     free(it.ptr->key);
     free(it.ptr);
+    t->size--;
 
     return;
 }

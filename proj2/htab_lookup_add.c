@@ -45,7 +45,7 @@ htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
     }
 
     //set key and value for item
-    sprintf(it_found.ptr->key,"%s",key);    //set key
+    strcpy(it_found.ptr->key,key);
     htab_iterator_set_value(it_found, 0);
     
     //add new item in table

@@ -16,7 +16,7 @@ struct htab {
 };
 
 struct htab_item {
-    htab_key_t key;                 //hash kluc prvku
+    char* key;                 //hash kluc prvku
     htab_value_t data;              //hodnota(obsah) prvku
     struct htab_item *next;         //ukazatel na dalsi prvok
 };

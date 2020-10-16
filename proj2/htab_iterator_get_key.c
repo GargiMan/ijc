@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include "htab.h"
+#include "htab_structs.h"
 
 htab_key_t htab_iterator_get_key(htab_iterator_t it) {
 

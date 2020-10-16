@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include "htab.h"
+#include "htab_structs.h"
 
 htab_iterator_t htab_iterator_next(htab_iterator_t it) {
 
@@ -16,7 +17,7 @@ htab_iterator_t htab_iterator_next(htab_iterator_t it) {
     }
 
     //new iterator for return
-    htab_iterator_t it_next = {NULL, it.t, it.idx}
+    htab_iterator_t it_next = {NULL, it.t, it.idx};
 
     //not last item at index
     if (it.ptr->next != NULL) {
