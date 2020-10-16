@@ -1,25 +1,24 @@
 # Makefile IJC DU2
 # Autor: Marek Gergel, FIT
 
-CC = gcc
-CFLAGS = -std=c99 -pedantic -Wall -Wextra -g
-HTAB = htab.h htab_structs.h htab_begin.c htab_bucket_count.c htab_clear.c htab_end.c htab_erase.c htab_find.c htab_free.c htab_hash_fun.c htab_init.c htab_iterator_equal.c htab_iterator_get_key.c htab_iterator_get_value.c htab_iterator_next.c htab_iterator_set_value.c htab_iterator_valid.c htab_lookup_add.c htab_size.c
+C = gcc -std=c99 -pedantic -Wall -Wextra -g
+HTAB = htab_begin.o htab_bucket_count.o htab_clear.o htab_end.o htab_erase.o htab_find.o htab_free.o htab_hash_fun.o htab_init.o htab_iterator_equal.o htab_iterator_get_key.o htab_iterator_get_value.o htab_iterator_next.o htab_iterator_set_value.o htab_iterator_valid.o htab_lookup_add.o htab_size.o
 
-.PHONY: clean zip run
+.PHONY: clean zip
 
 all: tail libhtab.a libhtab.so
 
 tail: tail.c
-	$(CC) $(CFLAGS) tail.c -o $@
+	$(C) $^ -o $@
+
+%.o: %.c
+	$(C) -fPIC -c $<  
 
 libhtab.a: $(HTAB)
-	$(CC) $(CFLAGS) -shared -fPIC $(HTAB) -o $@
+	ar crs $@ $^
 
 libhtab.so: $(HTAB)
-	$(CC) $(CFLAGS) -shared -fPIC $(HTAB) -o $@
-
-run:
-	./tail
+	$(C) -fPIC -shared  $^ -o $@
 
 clean:
 	rm -f *.o tail libhtab.a libhtab.so
