@@ -4,6 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // return value from iterator
 
+#include <stdio.h>
 #include "htab.h"
 
 htab_value_t htab_iterator_get_value(htab_iterator_t it) {
@@ -11,8 +12,8 @@ htab_value_t htab_iterator_get_value(htab_iterator_t it) {
     //check iterator pointer
     if (!htab_iterator_valid(it)) {
         fprintf(stderr, "Error : iterator is incorrect\n");
-        return NULL;
+        return 0;
     }
 
     //return value from iterator
-    return it->ptr->data;
+    return it.ptr->data;

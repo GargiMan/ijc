@@ -4,8 +4,8 @@
 // Přeloženo: gcc 7.5.0
 // search for item with key, if doesn't exist, create new
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "htab.h"
 #include "htab_structs.h"
 
@@ -18,7 +18,7 @@ htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
     }
 
     //index calculation for key
-    size_t index = htab_hash_function(key) % t->arr_size;
+    size_t index = htab_hash_fun(key) % t->arr_size;
 
     //new iterator for return
     htab_iterator_t it_found = {t->array[index], t, index};
@@ -30,7 +30,7 @@ htab_iterator_t htab_lookup_add(htab_t * t, htab_key_t key) {
     }
 
     //item allocation and check pointer
-    it_found.ptr = mallloc(sizeof(struct htab_item));
+    it_found.ptr = malloc(sizeof(struct htab_item));
     if (it_found.ptr == NULL) {
         fprintf(stderr, "Error : allocation for new item failed\n");
         return htab_end(t);

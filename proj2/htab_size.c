@@ -4,6 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // return number of items in table
 
+#include <stdio.h>
 #include "htab.h"
 #include "htab_structs.h"
 

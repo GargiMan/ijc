@@ -4,6 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // return key from iterator
 
+#include <stdio.h>
 #include "htab.h"
 
 htab_key_t htab_iterator_get_key(htab_iterator_t it) {
@@ -15,5 +16,5 @@ htab_key_t htab_iterator_get_key(htab_iterator_t it) {
     }
 
     //return key from iterator
-    return it->ptr->key;
+    return it.ptr->key;
 }

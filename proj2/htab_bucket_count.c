@@ -4,6 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // return size of table array
 
+#include <stdio.h>
 #include "htab.h"
 #include "htab_structs.h"
 
@@ -12,7 +13,7 @@ size_t htab_bucket_count(const htab_t * t) {
     //check table pointer
     if (t == NULL) {
         fprintf(stderr, "Error : table does not exist\n");
-        return;
+        return 0;
     }
 
     //return size of table array

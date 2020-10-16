@@ -4,6 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // erase all items in table
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "htab.h"
 #include "htab_structs.h"

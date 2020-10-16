@@ -4,6 +4,7 @@
 // Přeloženo: gcc 7.5.0
 // set iterator (item) value and return it
 
+#include <stdio.h>
 #include "htab.h"
 
 htab_value_t htab_iterator_set_value(htab_iterator_t it, htab_value_t val) {
@@ -11,9 +12,9 @@ htab_value_t htab_iterator_set_value(htab_iterator_t it, htab_value_t val) {
     //check iterator pointer
     if (!htab_iterator_valid(it)) {
         fprintf(stderr, "Error : iterator is incorrect\n");
-        return NULL;
+        return 0;
     }
 
     //set iterator (item) value and return it
-    return it->ptr->data = val;
+    return it.ptr->data = val;
 }

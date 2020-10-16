@@ -4,8 +4,8 @@
 // Přeloženo: gcc 7.5.0
 // search for item with key
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "htab.h"
 #include "htab_structs.h"
 
@@ -18,7 +18,7 @@ htab_iterator_t htab_find(htab_t * t, htab_key_t key) {
     }
 
     //index calculation for key
-    size_t index = htab_hash_function(key) % t->arr_size;
+    size_t index = htab_hash_fun(key) % t->arr_size;
 
     //new iterator for return
     htab_iterator_t it_found = {t->array[index], t, index};

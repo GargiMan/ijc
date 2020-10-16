@@ -4,8 +4,8 @@
 // Přeloženo: gcc 7.5.0
 // initialize table with n size of array
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "htab.h"
 #include "htab_structs.h"
 
