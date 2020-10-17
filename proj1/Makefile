@@ -1,7 +1,7 @@
 # Makefile IJC DU1
 # Autor: Marek Gergel, FIT
 
-CC = gcc -std=c11 -pedantic -Wall -Wextra -g
+C = gcc -std=c11 -pedantic -Wall -Wextra -g
 
 .PHONY: clean zip run
 
