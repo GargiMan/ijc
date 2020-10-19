@@ -17,7 +17,7 @@ void htab_clear(htab_t* t) {
         return;
     }
 
-    //move through next index
+    //move to next index
     for (size_t i = 0; i < t->arr_size; i++) {
 
         //erase item and move to next one

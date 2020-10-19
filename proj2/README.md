@@ -341,3 +341,5 @@ efektivitu pro vhodný vstup.
 Poznámky:
  Pro testy wordcount-dynamic na linuxu budete potřebovat nastavit
       LD_LIBRARY_PATH="."   (viz "man ld.so" a odpovídající přednáška)
+      
+      LD_LIBRARY_PATH="." ./wordcount-dynamic < text.txt
