@@ -3,7 +3,7 @@
 
 C = gcc -std=c11 -pedantic -Wall -Wextra -g
 
-.PHONY: clean zip run
+.PHONY: clean run
 
 all: primes primes-i steg-decode steg-encode
 
@@ -29,5 +29,5 @@ run: all
 clean: 
 	rm -f *.o primes primes-i steg-decode steg-encode
 
-zip: *.c *.h Makefile
+zip:
 	zip xgerge01.zip *.c *.h Makefile

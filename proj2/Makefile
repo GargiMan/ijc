@@ -4,7 +4,7 @@
 C = gcc -std=c99 -pedantic -Wall -Wextra -g
 HTAB = htab_begin.o htab_bucket_count.o htab_clear.o htab_end.o htab_erase.o htab_find.o htab_free.o htab_hash_fun.o htab_init.o htab_iterator_equal.o htab_iterator_get_key.o htab_iterator_get_value.o htab_iterator_next.o htab_iterator_set_value.o htab_iterator_valid.o htab_lookup_add.o htab_size.o
 
-.PHONY: clean zip
+.PHONY: clean
 
 all: tail libhtab.a libhtab.so wordcount wordcount-dynamic
 
@@ -38,7 +38,7 @@ libhtab.so: $(HTAB)
 clean:
 	rm -f *.o tail libhtab.a libhtab.so wordcount wordcount-dynamic wordcount-
 
-zip: *.c *.h Makefile
+zip:
 	zip xgerge01.zip *.c *.h Makefile
 
 wordcount-: wordcount-.cc
