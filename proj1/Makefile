@@ -1,26 +1,26 @@
 # Makefile IJC DU1
 # Autor: Marek Gergel, FIT
 
-C = gcc -std=c11 -pedantic -Wall -Wextra -g -lm
+C = gcc -std=c11 -pedantic -Wall -Wextra
 
 .PHONY: clean run
 
 all: primes primes-i steg-decode steg-encode
 
 %.o : %.c
-	$(C) -c $<
+	$(C) -c $< -lm
 
 primes: eratosthenes.o primes.o error.o
-	$(C) $^ -o $@
+	$(C) $^ -o $@ -lm
 
 primes-i: eratosthenes.o primes.o error.o
-	$(C) $^ -o $@ -DUSE_INLINE
+	$(C) $^ -o $@ -lm -DUSE_INLINE
 
 steg-decode: eratosthenes.o steg-decode.o ppm.o error.o
-	$(C) $^ -o $@
+	$(C) $^ -o $@ -lm
 
 steg-encode: eratosthenes.o steg-encode.o ppm.o error.o
-	$(C) $^ -o $@
+	$(C) $^ -o $@ -lm
 
 run: all
 	./primes
